@@ -1,6 +1,9 @@
-<h2>Usefull common library for selenium framework</2>
+<h2>Usefull common library for selenium framework</2><br>
 
-<h4> Important feature
-  1. All type of swipe and sroll method 
-  2. Handling the map functionaity in web application.
-  3. Screenshot 
+<h4> Important feature<br>
+  1. All type of swipe and sroll method.<br>
+  2. Handling the map functionaity in web application.<br>
+  3. Screenshot imgae encoded<br><br>
+  4. Recoring video for failed test cases.<br>
+  5. Follows SOLID design pattern.
+  
