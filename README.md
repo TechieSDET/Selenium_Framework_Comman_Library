@@ -6,7 +6,7 @@
   4. All type of swipe and sroll method.<br>
   5. Handling the map functionaity in web application.<br>
   
-  
+ <h4> Commom library method</h4> 
 <pre>
 package base;
 
@@ -64,103 +64,6 @@ public class CommonUtils extends GlobalVariables implements Wrappers, Wrappers.S
     Dimension size;
     public static RemoteWebDriver driver;
     public static ChromeOptions opt;
-    @SuppressWarnings("static-access")
-    public static RemoteWebDriver IntitateBrowser() throws Exception {
-        if (breakPoint.equalsIgnoreCase("Desktop")) {
-            DesiredCapabilities capabilities = null;
-            switch (browserType.valueOf(browser)) {
-                case FIREFOX:
-                    logger.info("Starting FireFox Browser");
-                    capabilities = DesiredCapabilities.firefox();
-                    capabilities.setCapability("browserName", browser);
-                    URL url = new URL("http://localhost:4444/wd/hub");
-                    driver = new RemoteWebDriver(url, capabilities);
-                    break;
-                case CHROME:
-                    logger.info("Starting Chrome Browser");
-                    if (osName.toUpperCase().contains("WIN")) {
-                        System.setProperty("webdriver.chrome.driver",
-                                userDir + File.separator + GlobalVariables.driverPath + "chromedriver.exe");
-                        driver = new ChromeDriver();
-                        ChromeOptions options = new ChromeOptions();
-                        options.addArguments("--incognito");
-//                      driver.manage().deleteAllCookies();
-                        driver.manage().timeouts().implicitlyWait(timeOut, TimeUnit.SECONDS);
-                    } else if (osName.toUpperCase().contains("MAC")) {
-                        System.setProperty("webdriver.chrome.driver", userDir + File.separator + GlobalVariables.driverPath + "chromedriverMac");
-                        driver = new ChromeDriver();
-                    } else {
-                        logger.info("**********Given OS is not supported************");
-                    }
-                    break;
-                case INTERNETEXPLORER:
-                    if (osName.contains("win")) {
-                        logger.info("Starting IE Browser");
-                        System.setProperty("webdriver.ie.driver", userDir + "/drivers/IEDriverServer.exe");
-                        driver = new InternetExplorerDriver();
-                        driver.manage().deleteAllCookies();
-                    } else {
-                        logger.info("**********Given Browser Name is not supported in this machine************");
-                    }
-                    break;
-                case SAFARI:
-                    if (osName.contains("mac")) {
-                        logger.info("Starting Safari Browser");
-                        driver = new SafariDriver();
-                        driver.manage().deleteAllCookies();
-                    } else {
-                        logger.info("**********Given Browser Name is not supported in this machine************");
-                    }
-                    break;
-                default:
-                    logger.info("**********Given Browser Name is Wrong************ " + browser);
-                    break;
-            }
-            logger.info("Started with " + browser + " Browser");
-            driver.manage().window().maximize();
-//            driver.get(appUrl);
-        } else if (breakPoint.equalsIgnoreCase("Mobile")) {
-            DesiredCapabilities capabilities = new DesiredCapabilities();
-            switch (mobileType.valueOf(platformName)) {
-                case ANDROID:
-                    logger.info("Starting Android Native App");
-                    capabilities.setCapability("platformName", platformName);
-                    capabilities.setCapability("platformVersion", PlatformVersion);
-                    capabilities.setCapability("deviceName", deviceName);
-                    capabilities.setCapability("appPackage", appPackage);
-                    capabilities.setCapability("appActivity", appActivity);
-                    capabilities.setCapability("automationName", "UiAutomator2");
-                    capabilities.setCapability("--session-override", true);
-                    capabilities.setCapability("newCommandTimeout", "360000");
-                    capabilities.setCapability("noReset", true);
-                    driver = new AndroidDriver(new URL("http://" + appiumHost + ":" + appiumPort + "/wd/hub"), capabilities);
-                    driver.manage().timeouts().implicitlyWait(timeOut, TimeUnit.MILLISECONDS);
-                    break;
-                case IOS:
-                    capabilities.setCapability("platformName", platformName);
-                    capabilities.setCapability("platformVersion", PlatformVersion);
-                    capabilities.setCapability("deviceName", deviceName);
-                    capabilities.setCapability("bundleId", bundleID);
-                    capabilities.setCapability("udid", UDID);
-                    capabilities.setCapability("automationName", "XCUITest");
-                    capabilities.setCapability("waitForQuiescence", "false");
-                    capabilities.setCapability("--session-override", true);
-                    capabilities.setCapability("noReset", false);
-                    capabilities.setCapability("newCommandTimeout", 360000);
-                    capabilities.setCapability("updatedWDABundleID", "com.medimpact.Ptnh.WebDriverAgentRunnerss");
-                    capabilities.setCapability("xcodeOrgID", "WXDAFJ98Z7");
-                    capabilities.setCapability("xcodeSigningId", "iPhone Developer");
-                    driver = new IOSDriver(new URL("http://" + appiumHost + ":" + appiumPort + "/wd/hub"), capabilities);
-                    driver.manage().timeouts().implicitlyWait(timeOut, TimeUnit.MILLISECONDS);
-                    break;
-                default:
-                    throw new IllegalStateException("Unexpected value: " + mobileType.valueOf(browser));
-            }
-        }
-
-        return driver;
-    }
-
     /**
      * This method used to get url
      * Name: Prabagaran
@@ -845,10 +748,6 @@ public class CommonUtils extends GlobalVariables implements Wrappers, Wrappers.S
 
     /**
      * This method used to switch To NativeApp Context
-     * Name: Prabagaran
-     * Role: SDET
-     * Employee Id: 119584
-     * Project: Medimpact Mobile Automation
      */
     public void switchToNativeAppContext(AppiumDriver<?> app) {
         try {
